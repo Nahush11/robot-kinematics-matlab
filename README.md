@@ -13,4 +13,4 @@ Three-link planar robot arm using forward kinematics.
 ## Tools
 - MATLAB
 - GitHub
-Learn the fundamentals of forward kinematics and robot arm visualization.
+
