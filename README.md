@@ -1,16 +1,25 @@
-# Robotics Kinematics
+Robotics Kinematics with MATLAB
 
-My first robotics project using MATLAB.
+Forward Kinematics of a 3-Link Robot Arm
 
-## Project
-Three-link planar robot arm using forward kinematics.
+Implemented forward kinematics for a 3-link planar robot arm using MATLAB.
 
-## What it does
-- Calculates the position of each joint using link lengths and joint angles.
-- Visualizes the robot arm in MATLAB.
-- Uses sine and cosine to calculate X and Y coordinates.
+Defined link lengths and joint angles.
 
-## Tools
-- MATLAB
-- GitHub
+Calculated joint positions using sine and cosine.
 
+Plotted the robot arm.
+
+Animated the arm using a for loop to change the joint angles.
+
+Results
+
+Robot Arm
+
+<img width="1075" height="645" alt="robot_arm_animation" src="https://github.com/user-attachments/assets/fd5bfb1d-7dd3-498d-8453-6ef6be65ffaf" />
+<img width="1111" height="746" alt="robot_arm" src="https://github.com/user-attachments/assets/17164608-d2cd-41ee-8a7a-fcab39b906b5" />
+
+
+Animation
+
+![Uploading robot_arm_animation.gif…]()
