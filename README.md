@@ -16,10 +16,10 @@ Results
 
 Robot Arm
 
-<img width="1075" height="645" alt="robot_arm_animation" src="https://github.com/user-attachments/assets/fd5bfb1d-7dd3-498d-8453-6ef6be65ffaf" />
-<img width="1111" height="746" alt="robot_arm" src="https://github.com/user-attachments/assets/17164608-d2cd-41ee-8a7a-fcab39b906b5" />
+
+<img width="1111" height="746" alt="robot_arm" src="https://github.com/user-attachments/assets/b86fb73d-68b0-44fb-af50-13115b5908bb" />
 
 
 Animation
 
-![Uploading robot_arm_animation.gif…]()
+<img width="1075" height="645" alt="robot_arm_animation" src="https://github.com/user-attachments/assets/2e1e0cae-4bd7-4913-9f52-c6b66109a3a3" />
