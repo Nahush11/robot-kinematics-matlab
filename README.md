@@ -20,8 +20,7 @@ Both **Forward Kinematics (FK)** and **Inverse Kinematics (IK)** are implemented
   - [Derivation](#ik-derivation)
   - [Solving for the Joint Angles](#solving-for-the-joint-angles)
   - [Results](#ik-results)
-- [Requirements](#requirements)
-- [How to Run](#how-to-run)
+
 ---
  
 ## Robot Model
@@ -138,11 +137,12 @@ For θ₁ = 30°, θ₂ = 40°, θ₃ = −20° the end-effector pose is:
  
 **Robot configuration**
  
-<!-- Add your image: ![Robot configuration](images/fk_configuration.png) -->
+<img width="1111" height="746" alt="robot_arm" src="https://github.com/user-attachments/assets/58d71418-d0df-4ab5-9291-43d381923a33" />
  
 **Robot animation**
  
-<!-- Add your image: ![Robot animation](images/fk_animation.gif) -->
+<img width="1075" height="645" alt="robot_arm_animation" src="https://github.com/user-attachments/assets/8562d260-7d21-4410-afbb-6f0fed323fff" />
+
  
 ---
  
@@ -305,23 +305,10 @@ The result is a clear visual account of how the arm reconfigures itself to reach
 ### IK Results
  
 **Final robot configuration**
- 
-<!-- Add your image: ![IK configuration](images/ik_configuration.png) -->
+ <img width="1442" height="1484" alt="Three_Link_Robot_IK" src="https://github.com/user-attachments/assets/d9faa542-8542-4da2-b0cd-a02c690cadb4" />
+
  
 **Inverse Kinematics animation**
+ <img width="1075" height="645" alt="Three_Link_Robot_IK_Animation" src="https://github.com/user-attachments/assets/56a21595-de90-422b-82e7-6c163af3ce3c" />
  
-<!-- Add your image: ![IK animation](images/ik_animation.gif) -->
- 
----
- 
-## Requirements
- 
-- MATLAB R2020a or newer
-- Symbolic Math Toolbox (required for the Inverse Kinematics scripts)
-## How to Run
- 
-1. Clone the repository and open the folder in MATLAB.
-2. Run the Forward Kinematics script to compute and plot the end-effector pose.
-3. Run the Inverse Kinematics script to solve for the joint angles and animate the motion to the target pose.
-4. Link lengths, joint angles, and the target pose can all be edited at the top of each script.
- 
+ ---
