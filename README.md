@@ -42,11 +42,11 @@ Since each joint angle represents a relative rotation, the absolute orientation 
 
 The orientation of each link with respect to the global X-axis is:
 
-Link 1: (\theta_1)
+Link 1: $$\theta_1$$
 
-Link 2: (\theta_1+\theta_2)
+Link 2: $$\theta_1+\theta_2$$
 
-Link 3: (\theta_1+\theta_2+\theta_3)
+Link 3: $$\theta_1+\theta_2+\theta_3$$
 
 This cumulative relationship is essential for calculating the Cartesian position of each joint.
 
