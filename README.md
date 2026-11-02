@@ -54,27 +54,27 @@ This cumulative relationship is essential for calculating the Cartesian position
 
 MATLAB's trigonometric functions use radians. Therefore, the joint angles are converted before performing the calculations.
 
-[
+$$
 \theta_{\text{rad}} = \theta_{\text{deg}}\times\frac{\pi}{180}
-]
+$$
 
 3. Calculating the Position of Joint 1
 
 The first link starts at the robot base, which is considered the origin of the coordinate system:
 
-[
+$$
 P_0=(0,0)
-]
+$$
 
 Using basic trigonometry, the position of the first joint is:
 
-[
+$$
 x_1=L_1\cos(\theta_1)
-]
+$$
 
-[
+$$
 y_1=L_1\sin(\theta_1)
-]
+$$
 
 These equations resolve the first link into its horizontal and vertical components.
 
