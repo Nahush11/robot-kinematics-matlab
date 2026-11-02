@@ -23,3 +23,15 @@ Robot Arm
 Animation
 
 <img width="1075" height="645" alt="robot_arm_animation" src="https://github.com/user-attachments/assets/2e1e0cae-4bd7-4913-9f52-c6b66109a3a3" />
+
+
+
+Robot Arm
+
+<img width="1442" height="1484" alt="Three_Link_Robot_IK" src="https://github.com/user-attachments/assets/3545787f-7015-4f19-98dc-e5e129f2b623" />
+
+
+Animation
+<img width="1075" height="645" alt="robot_arm_animation" src="https://github.com/user-attachments/assets/60ee6871-6e82-4f95-bc73-075b2946d248" />
+
+
