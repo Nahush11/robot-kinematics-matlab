@@ -1,430 +1,327 @@
-Robotics Kinematics with MATLAB
-
-Forward and Inverse Kinematics of a 3-Link Planar Robot Arm
-
-This project focuses on the mathematical modelling, implementation, and visualization of a three-link planar robotic arm using MATLAB.
-
-Both Forward Kinematics (FK) and Inverse Kinematics (IK) are implemented to understand the relationship between joint angles, link lengths, and the end-effector pose.
-
-The project starts with deriving the mathematical equations, followed by implementing them in MATLAB, calculating joint positions, and visualizing the robot through 2D plots and animations.
-
-1. Forward Kinematics (FK)
-
-Objective
-
-Forward Kinematics determines the position and orientation of a robot's end effector when the link lengths and joint angles are known.
-
-The robot consists of three rigid links connected by three revolute joints. Each joint provides rotational motion in the XY plane. The joint angles are defined relative to the preceding link, rather than independently with respect to the global coordinate frame.
-
-Robot Configuration
-
-The robot is defined using the following parameters:
-
-Link 1: (L_1 = 2.0,m)
-
-Link 2: (L_2 = 1.5,m)
-
-Link 3: (L_3 = 1.0,m)
-
-For the initial Forward Kinematics implementation, the joint angles are:
-
-First joint: $$\theta_1 = 30^\circ$$
-
-Second joint: $$\theta_2 = 40^\circ$$
-
-Third joint: $$\theta_3 = -20^\circ$$
-
-Mathematical Derivation
-
-1. Understanding the Link Orientations
-
-Since each joint angle represents a relative rotation, the absolute orientation of each link is calculated by adding the preceding joint angles.
-
-The orientation of each link with respect to the global X-axis is:
-
-Link 1: $$\theta_1$$
-
-Link 2: $$\theta_1+\theta_2$$
-
-Link 3: $$\theta_1+\theta_2+\theta_3$$
-
-This cumulative relationship is essential for calculating the Cartesian position of each joint.
-
-2. Converting Degrees into Radians
-
-MATLAB's trigonometric functions use radians. Therefore, the joint angles are converted before performing the calculations.
-
-$$
-\theta_{\text{rad}} = \theta_{\text{deg}}\times\frac{\pi}{180}
-$$
-
-3. Calculating the Position of Joint 1
-
-The first link starts at the robot base, which is considered the origin of the coordinate system:
-
-$$
-P_0=(0,0)
-$$
-
-Using basic trigonometry, the position of the first joint is:
-
-$$
-x_1=L_1\cos(\theta_1)
-$$
-
-$$
-y_1=L_1\sin(\theta_1)
-$$
-
-These equations resolve the first link into its horizontal and vertical components.
-
-4. Calculating the Position of Joint 2
-
-The second link starts at the endpoint of the first link. Its orientation is the sum of the first and second joint angles.
-
-$$
-x_2=x_1+L_2\cos(\theta_1+\theta_2)
-$$
-
-$$
-y_2=y_1+L_2\sin(\theta_1+\theta_2)
-$$
-
-The position of Joint 1 is added to the second link's Cartesian components to obtain the position of Joint 2.
-
-5. Calculating the End-Effector Position
-
-The third link starts at the endpoint of the second link. Its absolute orientation is:
-
-$$
-\theta_1+\theta_2+\theta_3
-$$
-
-Therefore, the end-effector coordinates are:
-
-$$
-x_3=x_2+L_3\cos(\theta_1+\theta_2+\theta_3)
-$$
-
-$$
-y_3=y_2+L_3\sin(\theta_1+\theta_2+\theta_3)
-$$
-
-The resulting point $$(P_3=(x_3,y_3))$$ represents the position of the robot's end effector.
-
-6. Complete Forward Kinematics Equations
-
-By combining the individual link equations, the complete end-effector position can be expressed directly in terms of the three joint angles:
-
-End-effector X-coordinate
-
-$$
-\boxed{
-x=L_1\cos\theta_1+
-L_2\cos(\theta_1+\theta_2)+
-L_3\cos(\theta_1+\theta_2+\theta_3)
-}
-$$
-
-End-effector Y-coordinate
-
-$$
-\boxed{
-y=L_1\sin\theta_1+
-L_2\sin(\theta_1+\theta_2)+
-L_3\sin(\theta_1+\theta_2+\theta_3)
-}
-$$
-End-effector orientation
-
-$$
-\boxed{\phi=\theta_1+\theta_2+\theta_3}
-$$
-These equations form the mathematical model used to calculate the robot's end-effector pose.
-
-MATLAB Implementation
-
-The mathematical equations were implemented in MATLAB using sine and cosine functions.
-
-The Cartesian coordinates of each joint were calculated sequentially, starting from the base and moving towards the end effector. The calculated coordinates were then used to construct the complete robot configuration.
-
-Visualization and Animation
-
-The robot arm was visualized in a 2D Cartesian coordinate system using MATLAB plotting functions.
-
-An animation was also implemented using a for loop. The joint angles were gradually updated, and the corresponding joint positions were recalculated at each iteration.
-
-The existing robot plot was updated continuously to demonstrate how changes in joint angles affect the robot's configuration and end-effector position.
-
-Forward Kinematics Results
-
-Robot Configuration
-
-
-
-Robot Animation
-
-
-
-2. Inverse Kinematics (IK)
-
-Objective
-
-Inverse Kinematics determines the joint angles required to achieve a specified end-effector position and orientation.
-
-Unlike Forward Kinematics, where the joint angles are known and the end-effector pose is calculated, Inverse Kinematics starts with the desired end-effector pose and works backwards to determine the required joint angles.
-
-For this implementation, MATLAB's Symbolic Math Toolbox was used to formulate and solve the inverse kinematics equations.
-
-Robot Configuration and Target Pose
-
-The same three-link planar robot was used:
-
-Link 1: $$(L_1 = 2.0,m)$$
-
-Link 2: $$(L_2 = 1.5,m)$$
-
-Link 3: $$(L_3 = 1.0,m)$$
-
-The desired end-effector configuration was defined as:
-
-Desired X-coordinate: $$(x_{\text{des}}=2.0,m)$$
-
-Desired Y-coordinate: (y_{\text{des}}=1.5,m)
-
-Desired orientation: (\phi_{\text{des}}=45^\circ)
-
-The objective is to find the three joint angles that satisfy this desired configuration.
-
-Mathematical Derivation
-
-1. Defining the Desired End-Effector Configuration
-
-The desired end-effector pose consists of its position and orientation relative to the global coordinate frame.
-
-To represent this configuration, a homogeneous transformation matrix was constructed:
-
-[
-T_{\text{des}}=
-\begin{bmatrix}
-\cos\phi_{\text{des}} & -\sin\phi_{\text{des}} & x_{\text{des}}\
-\sin\phi_{\text{des}} & \cos\phi_{\text{des}} & y_{\text{des}}\
-0 & 0 & 1
-\end{bmatrix}
-]
-
-This matrix combines the rotation and translation of the desired end-effector pose into a single representation.
-
-2. Defining the Unknown Joint Angles
-
-Since the joint angles were unknown, three symbolic variables were introduced:
-
-[
-\theta_1,\quad\theta_2,\quad\theta_3
-]
-
-These variables represent the unknown rotations of the three revolute joints.
-
-Symbolic variables allow MATLAB to work with the mathematical expressions without requiring numerical joint-angle values in advance.
-
-3. Constructing the Individual Transformation Matrices
-
-Each robot link was represented using a homogeneous transformation matrix.
-
-For the transformation from the base to Link 1:
-
-[
-T_{01}=
-\begin{bmatrix}
-\cos\theta_1 & -\sin\theta_1 & L_1\cos\theta_1\
-\sin\theta_1 & \cos\theta_1 & L_1\sin\theta_1\
-0 & 0 & 1
-\end{bmatrix}
-]
-
-For the transformation from Link 1 to Link 2:
-
-[
-T_{12}=
-\begin{bmatrix}
-\cos\theta_2 & -\sin\theta_2 & L_2\cos\theta_2\
-\sin\theta_2 & \cos\theta_2 & L_2\sin\theta_2\
-0 & 0 & 1
-\end{bmatrix}
-]
-
-For the transformation from Link 2 to Link 3:
-
-[
-T_{23}=
-\begin{bmatrix}
-\cos\theta_3 & -\sin\theta_3 & L_3\cos\theta_3\
-\sin\theta_3 & \cos\theta_3 & L_3\sin\theta_3\
-0 & 0 & 1
-\end{bmatrix}
-]
-
-Each matrix represents the rotation and translation contributed by an individual link relative to its preceding coordinate frame.
-
-4. Deriving the Complete Transformation Matrix
-
-To obtain the transformation from the robot base to the end effector, the three individual transformation matrices were multiplied:
-
-[
-\boxed{T_{03}=T_{01}T_{12}T_{23}}
-]
-
-After symbolic multiplication and simplification, the complete transformation matrix becomes:
-
-[
-T_{03}=
-\begin{bmatrix}
-\cos(\theta_1+\theta_2+\theta_3) &
--\sin(\theta_1+\theta_2+\theta_3) &
-x\
-\sin(\theta_1+\theta_2+\theta_3) &
-\cos(\theta_1+\theta_2+\theta_3) &
-y\
-0 & 0 & 1
-\end{bmatrix}
-]
-
-Here, (x) and (y) represent the end-effector position obtained from the Forward Kinematics equations.
-
-This transformation matrix describes the complete end-effector pose as a function of the three unknown joint angles.
-
-5. Formulating the Inverse Kinematics Equations
-
-The goal is to make the calculated transformation equal to the desired transformation:
-
-[
-\boxed{T_{03}=T_{\text{des}}}
-]
-
-By comparing the corresponding matrix elements, three equations are obtained.
-
-X-position constraint
-
-[
-L_1\cos\theta_1+
-L_2\cos(\theta_1+\theta_2)+
-L_3\cos(\theta_1+\theta_2+\theta_3)
-=x_{\text{des}}
-]
-
-Y-position constraint
-
-[
-L_1\sin\theta_1+
-L_2\sin(\theta_1+\theta_2)+
-L_3\sin(\theta_1+\theta_2+\theta_3)
-=y_{\text{des}}
-]
-
-Orientation constraint
-
-[
-\boxed{\theta_1+\theta_2+\theta_3=45^\circ}
-]
-
-These three constraints must be satisfied simultaneously to reach the desired end-effector pose.
-
-6. Reducing the Number of Unknowns
-
-The desired orientation is already known. Therefore, the orientation equation can be rearranged to express the third joint angle in terms of the first two:
-
-[
-\theta_1+\theta_2+\theta_3=45^\circ
-]
-
-Rearranging:
-
-[
-\boxed{\theta_3=45^\circ-\theta_1-\theta_2}
-]
-
-This expression was substituted into the X-position and Y-position equations.
-
-Since the total orientation is fixed at (45^\circ), the third-link contribution becomes constant:
-
-[
-L_3\cos(45^\circ)
-]
-
-for the X-coordinate, and:
-
-[
-L_3\sin(45^\circ)
-]
-
-for the Y-coordinate.
-
-Substituting the robot dimensions and target coordinates gives the following reduced equations.
-
-Reduced X-position equation
-
-[
-\boxed{
-2=2\cos\theta_1+
-1.5\cos(\theta_1+\theta_2)+
-\cos45^\circ
-}
-]
-
-Reduced Y-position equation
-
-[
-\boxed{
-1.5=2\sin\theta_1+
-1.5\sin(\theta_1+\theta_2)+
-\sin45^\circ
-}
-]
-
-The original problem with three unknown joint angles has now been reduced to two nonlinear equations with two unknowns: (\theta_1) and (\theta_2).
-
-7. Solving for the Joint Angles
-
-The two reduced equations were solved simultaneously using MATLAB's symbolic solve() function.
-
-The solver determines the possible values of:
-
-[
-\theta_1,\quad\theta_2
-]
-
-Once these values are obtained, the third joint angle is calculated using the orientation constraint:
-
-[
-\boxed{\theta_3=45^\circ-\theta_1-\theta_2}
-]
-
-The symbolic results were converted into numerical values using double(), and the joint angles were converted from radians into degrees for easier interpretation.
-
-Depending on the target pose, more than one valid joint configuration may exist. These different solutions represent alternative ways for the robot to reach the same end-effector pose.
-
-8. Calculating the Joint Positions
-
-After obtaining the joint angles, the Forward Kinematics position equations were used again to calculate the Cartesian coordinates of each joint.
-
-The calculated angles determine the orientation of each link, allowing the complete robot configuration to be reconstructed.
-
-The resulting robot configuration was plotted in MATLAB, with the desired end-effector position marked in the coordinate system.
-
-9. Visualizing and Animating the IK Solution
-
-To demonstrate the inverse kinematics result, an animation was created to show the transition from the initial robot configuration to the calculated IK configuration.
-
-Initially, all three joint angles are set to zero, meaning that the links are aligned along the positive X-axis.
-
-The joint angles are then gradually interpolated between their initial and final values. At each animation step, the Cartesian coordinates of all joints are recalculated and the robot drawing is updated.
-
-This provides a visual representation of how the robot changes its configuration to reach the specified end-effector position and orientation.
-
-Inverse Kinematics Results
-
-Final Robot Configuration
-
-
-
-Inverse Kinematics Animation
+# Robotics Kinematics with MATLAB
+ 
+**Forward and Inverse Kinematics of a 3-Link Planar Robot Arm**
+ 
+This project covers the mathematical modelling, implementation, and visualization of a three-link planar robotic arm in MATLAB.
+ 
+Both **Forward Kinematics (FK)** and **Inverse Kinematics (IK)** are implemented to study the relationship between joint angles, link lengths, and the end-effector pose. The workflow starts with deriving the equations by hand, then implements them in MATLAB, computes the joint positions, and finally visualizes the arm through 2D plots and animations.
+ 
+---
+ 
+## Table of Contents
+ 
+- [Robot Model](#robot-model)
+- [1. Forward Kinematics](#1-forward-kinematics)
+  - [Derivation](#fk-derivation)
+  - [Complete FK Equations](#complete-fk-equations)
+  - [MATLAB Implementation](#fk-matlab-implementation)
+  - [Results](#fk-results)
+- [2. Inverse Kinematics](#2-inverse-kinematics)
+  - [Derivation](#ik-derivation)
+  - [Solving for the Joint Angles](#solving-for-the-joint-angles)
+  - [Results](#ik-results)
+- [Requirements](#requirements)
+- [How to Run](#how-to-run)
+---
+ 
+## Robot Model
+ 
+The robot consists of three rigid links connected by three revolute joints. Each joint rotates in the XY plane, and every joint angle is measured **relative to the preceding link**, not with respect to the global frame.
+ 
+| Parameter | Symbol | Value |
+|-----------|--------|-------|
+| Link 1 length | L₁ | 2.0 m |
+| Link 2 length | L₂ | 1.5 m |
+| Link 3 length | L₃ | 1.0 m |
+| Maximum reach | L₁ + L₂ + L₃ | 4.5 m |
+ 
+Because the angles are relative, the **absolute** orientation of each link with respect to the global X-axis is the running sum of the joint angles:
+ 
+| Link | Absolute orientation |
+|------|---------------------|
+| Link 1 | θ₁ |
+| Link 2 | θ₁ + θ₂ |
+| Link 3 | θ₁ + θ₂ + θ₃ |
+ 
+This cumulative relationship is the key to computing the Cartesian position of every joint.
+ 
+---
+ 
+## 1. Forward Kinematics
+ 
+### Objective
+ 
+Forward Kinematics determines the **position and orientation of the end effector** when the link lengths and joint angles are known.
+ 
+For the initial FK implementation the joint angles are:
+ 
+| Joint | Symbol | Value |
+|-------|--------|-------|
+| Joint 1 | θ₁ | 30° |
+| Joint 2 | θ₂ | 40° |
+| Joint 3 | θ₃ | −20° |
+ 
+### FK Derivation
+ 
+#### Step 1 — Convert degrees into radians
+ 
+MATLAB's trigonometric functions expect radians, so the joint angles are converted first:
+ 
+```
+theta_rad = theta_deg * (pi / 180)
+```
+ 
+#### Step 2 — Position of Joint 1
+ 
+The first link starts at the robot base, which is taken as the origin:
+ 
+```
+P0 = (0, 0)
+```
+ 
+Resolving the first link into its horizontal and vertical components:
+ 
+```
+x1 = L1 * cos(θ1)
+y1 = L1 * sin(θ1)
+```
+ 
+#### Step 3 — Position of Joint 2
+ 
+The second link starts at the tip of the first link, and its absolute orientation is θ₁ + θ₂. Its components are therefore added to the position of Joint 1:
+ 
+```
+x2 = x1 + L2 * cos(θ1 + θ2)
+y2 = y1 + L2 * sin(θ1 + θ2)
+```
+ 
+#### Step 4 — Position of the end effector
+ 
+The third link starts at the tip of the second link with absolute orientation θ₁ + θ₂ + θ₃:
+ 
+```
+x3 = x2 + L3 * cos(θ1 + θ2 + θ3)
+y3 = y2 + L3 * sin(θ1 + θ2 + θ3)
+```
+ 
+The resulting point P₃ = (x₃, y₃) is the position of the end effector.
+ 
+### Complete FK Equations
+ 
+Combining the individual link equations gives the end-effector pose directly in terms of the three joint angles:
+ 
+```
+x = L1*cos(θ1) + L2*cos(θ1 + θ2) + L3*cos(θ1 + θ2 + θ3)
+ 
+y = L1*sin(θ1) + L2*sin(θ1 + θ2) + L3*sin(θ1 + θ2 + θ3)
+ 
+φ = θ1 + θ2 + θ3
+```
+ 
+These three equations form the complete mathematical model of the arm.
+ 
+### FK MATLAB Implementation
+ 
+The equations above were implemented in MATLAB using `sin` and `cos`. The Cartesian coordinates of each joint are computed sequentially, starting at the base and working outwards to the end effector, and the resulting coordinate list defines the full robot configuration.
+ 
+**Visualization and animation.** The arm is drawn in a 2D Cartesian coordinate system using MATLAB plotting functions. An animation is produced with a `for` loop: the joint angles are updated gradually, the joint positions are recomputed at every iteration, and the existing plot is refreshed — showing how a change in joint angles affects both the configuration and the end-effector position.
+ 
+### FK Results
+ 
+For θ₁ = 30°, θ₂ = 40°, θ₃ = −20° the end-effector pose is:
+ 
+| Quantity | Value |
+|----------|-------|
+| x | 2.888 m |
+| y | 3.176 m |
+| φ | 50° |
+ 
+**Robot configuration**
+ 
+<!-- Add your image: ![Robot configuration](images/fk_configuration.png) -->
+ 
+**Robot animation**
+ 
+<!-- Add your image: ![Robot animation](images/fk_animation.gif) -->
+ 
+---
+ 
+## 2. Inverse Kinematics
+ 
+### Objective
+ 
+Inverse Kinematics determines the **joint angles required to reach a specified end-effector position and orientation**. Where FK starts from known joint angles and computes the pose, IK starts from the desired pose and works backwards to the angles.
+ 
+This implementation uses MATLAB's **Symbolic Math Toolbox** to formulate and solve the equations.
+ 
+### Target Pose
+ 
+The same three-link arm is used (L₁ = 2.0 m, L₂ = 1.5 m, L₃ = 1.0 m), with the desired end-effector configuration:
+ 
+| Quantity | Symbol | Value |
+|----------|--------|-------|
+| Desired X | x_des | 2.0 m |
+| Desired Y | y_des | 1.5 m |
+| Desired orientation | φ_des | 45° |
+ 
+### IK Derivation
+ 
+#### Step 1 — Desired end-effector configuration
+ 
+The desired pose is expressed as a homogeneous transformation matrix, which packs rotation and translation into a single representation:
+ 
+```
+          [ cos(φ_des)   -sin(φ_des)   x_des ]
+T_des  =  [ sin(φ_des)    cos(φ_des)   y_des ]
+          [     0             0          1   ]
+```
+ 
+#### Step 2 — Unknown joint angles
+ 
+The three joint angles are unknown, so they are declared as symbolic variables θ₁, θ₂, θ₃. Symbolic variables let MATLAB manipulate the expressions without requiring numerical values in advance.
+ 
+#### Step 3 — Individual transformation matrices
+ 
+Each link is represented by its own homogeneous transformation, describing the rotation and translation it contributes relative to the preceding frame:
+ 
+```
+          [ cos(θ1)   -sin(θ1)   L1*cos(θ1) ]
+T_01  =   [ sin(θ1)    cos(θ1)   L1*sin(θ1) ]
+          [    0          0           1     ]
+ 
+          [ cos(θ2)   -sin(θ2)   L2*cos(θ2) ]
+T_12  =   [ sin(θ2)    cos(θ2)   L2*sin(θ2) ]
+          [    0          0           1     ]
+ 
+          [ cos(θ3)   -sin(θ3)   L3*cos(θ3) ]
+T_23  =   [ sin(θ3)    cos(θ3)   L3*sin(θ3) ]
+          [    0          0           1     ]
+```
+ 
+#### Step 4 — Complete transformation matrix
+ 
+The transformation from the base to the end effector is the product of the three individual matrices:
+ 
+```
+T_03 = T_01 * T_12 * T_23
+```
+ 
+After symbolic multiplication and simplification:
+ 
+```
+          [ cos(θ1+θ2+θ3)   -sin(θ1+θ2+θ3)   x ]
+T_03  =   [ sin(θ1+θ2+θ3)    cos(θ1+θ2+θ3)   y ]
+          [       0                0          1 ]
+```
+ 
+Here x and y are exactly the end-effector coordinates derived in the FK section. The matrix therefore describes the full end-effector pose as a function of the three unknown joint angles.
+ 
+#### Step 5 — Formulating the IK equations
+ 
+The computed transformation is set equal to the desired transformation:
+ 
+```
+T_03 = T_des
+```
+ 
+Comparing the corresponding matrix elements yields three constraints:
+ 
+**X-position constraint**
+ 
+```
+L1*cos(θ1) + L2*cos(θ1 + θ2) + L3*cos(θ1 + θ2 + θ3) = x_des
+```
+ 
+**Y-position constraint**
+ 
+```
+L1*sin(θ1) + L2*sin(θ1 + θ2) + L3*sin(θ1 + θ2 + θ3) = y_des
+```
+ 
+**Orientation constraint**
+ 
+```
+θ1 + θ2 + θ3 = 45°
+```
+ 
+All three must be satisfied simultaneously for the arm to reach the desired pose.
+ 
+#### Step 6 — Reducing the number of unknowns
+ 
+Since the desired orientation is already known, the orientation constraint can be rearranged to express the third joint angle in terms of the first two:
+ 
+```
+θ3 = 45° - θ1 - θ2
+```
+ 
+Substituting this into the position equations makes the third-link contribution constant, because the total orientation is fixed at 45°:
+ 
+```
+L3*cos(45°) = 0.7071
+L3*sin(45°) = 0.7071
+```
+ 
+Inserting the link lengths and target coordinates gives the reduced system:
+ 
+**Reduced X-position equation**
+ 
+```
+2.0 = 2*cos(θ1) + 1.5*cos(θ1 + θ2) + 0.7071
+```
+ 
+**Reduced Y-position equation**
+ 
+```
+1.5 = 2*sin(θ1) + 1.5*sin(θ1 + θ2) + 0.7071
+```
+ 
+The original problem in three unknowns is now **two nonlinear equations in two unknowns**, θ₁ and θ₂.
+ 
+### Solving for the Joint Angles
+ 
+The reduced system is solved simultaneously with MATLAB's symbolic `solve()` function, which returns the possible values of θ₁ and θ₂. The third angle then follows from the orientation constraint:
+ 
+```
+θ3 = 45° - θ1 - θ2
+```
+ 
+The symbolic results are converted to numerical values with `double()` and from radians into degrees for easier interpretation.
+ 
+> **Note:** depending on the target pose, more than one valid joint configuration may exist. These multiple solutions represent alternative ways for the arm to reach the same end-effector pose — a general property of inverse kinematics, not an error in the solver.
+ 
+### Computing the Joint Positions
+ 
+Once the joint angles are known, the FK position equations are applied again to recover the Cartesian coordinates of every joint. The angles fix the orientation of each link, which allows the complete arm configuration to be reconstructed and plotted in MATLAB with the desired end-effector position marked in the same coordinate system.
+ 
+### Visualizing and Animating the IK Solution
+ 
+An animation shows the transition from the initial configuration to the computed IK configuration:
+ 
+1. All three joint angles start at zero, so the links lie along the positive X-axis.
+2. The joint angles are interpolated gradually between their initial and final values.
+3. At each step the joint coordinates are recomputed and the drawing is updated.
+The result is a clear visual account of how the arm reconfigures itself to reach the specified position and orientation.
+ 
+### IK Results
+ 
+**Final robot configuration**
+ 
+<!-- Add your image: ![IK configuration](images/ik_configuration.png) -->
+ 
+**Inverse Kinematics animation**
+ 
+<!-- Add your image: ![IK animation](images/ik_animation.gif) -->
+ 
+---
+ 
+## Requirements
+ 
+- MATLAB R2020a or newer
+- Symbolic Math Toolbox (required for the Inverse Kinematics scripts)
+## How to Run
+ 
+1. Clone the repository and open the folder in MATLAB.
+2. Run the Forward Kinematics script to compute and plot the end-effector pose.
+3. Run the Inverse Kinematics script to solve for the joint angles and animate the motion to the target pose.
+4. Link lengths, joint angles, and the target pose can all be edited at the top of each script.
+ 
