@@ -28,11 +28,11 @@ Link 3: (L_3 = 1.0,m)
 
 For the initial Forward Kinematics implementation, the joint angles are:
 
-First joint: (\theta_1 = 30^\circ)
+First joint: $$\theta_1 = 30^\circ$$
 
-Second joint: (\theta_2 = 40^\circ)
+Second joint: $$\theta_2 = 40^\circ$$
 
-Third joint: (\theta_3 = -20^\circ)
+Third joint: $$\theta_3 = -20^\circ$$
 
 Mathematical Derivation
 
