@@ -2,161 +2,166 @@ Robotics Kinematics with MATLAB
 
 Forward and Inverse Kinematics of a 3-Link Planar Robot Arm
 
-This project focuses on understanding and implementing the kinematics of a 3-link planar robotic arm using MATLAB. I implemented both Forward Kinematics (FK) and Inverse Kinematics (IK), starting with the mathematical equations and then translating them into MATLAB for calculation, visualization, and animation.
+This project explores the mathematical modelling and simulation of a 3-link planar robotic arm using MATLAB. It covers both Forward Kinematics (FK) and Inverse Kinematics (IK), including mathematical derivations, joint position calculations, 2D visualization, and animation.
 
-The main objective was to understand how the joint angles of a robotic arm determine the end-effector position and, conversely, how the required joint angles can be calculated from a desired end-effector position and orientation.
+The objective is to understand the relationship between joint angles, link lengths, and end-effector position, and to apply these concepts through MATLAB implementations.
 
 1. Forward Kinematics (FK)
 
 Objective
 
-Forward Kinematics determines the position and orientation of the robot's end effector when the link lengths and joint angles are already known.
+Forward Kinematics calculates the position and orientation of a robot's end effector when the link lengths and joint angles are known.
 
-I started by considering a planar robotic arm consisting of three rigid links connected by three revolute joints. Each joint rotates in the 2D plane, and the angle of each link is measured relative to the previous link.
+The robot consists of three rigid links connected by three revolute joints. Each joint rotates in the 2D plane, with its angle measured relative to the previous link.
 
-Robot Parameters
+Robot Configuration
 
 Parameter
 
 Value
 
-Link 1 (L1)
+Number of links
+
+3
+
+Link 1 ($L_1$)
 
 2.0 m
 
-Link 2 (L2)
+Link 2 ($L_2$)
 
 1.5 m
 
-Link 3 (L3)
+Link 3 ($L_3$)
 
 1.0 m
 
-Joint angle 1
+Joint angle ($\theta_1$)
 
 30°
 
-Joint angle 2
+Joint angle ($\theta_2$)
 
 40°
 
-Joint angle 3
+Joint angle ($\theta_3$)
 
 -20°
 
-Mathematical Approach
+Mathematical Derivation
 
-Step 1: Understanding the joint angles
+Step 1 – Link orientations
 
-Since the robot has three revolute joints, each link has an orientation relative to the previous link.
+Since each joint angle represents a relative rotation, the absolute orientation of each link with respect to the global X-axis is:
 
-The absolute orientation of each link with respect to the global X-axis is:
+Link
 
-Link 1: (\theta_1)
+Absolute orientation
 
-Link 2: (\theta_1+\theta_2)
+Link 1
 
-Link 3: (\theta_1+\theta_2+\theta_3)
+$\theta_1$
 
-This is important because the second and third joint angles are relative rotations, not absolute angles measured from the global X-axis.
+Link 2
 
-Step 2: Converting degrees into radians
+$\theta_1+\theta_2$
 
-Trigonometric calculations in MATLAB use radians, so I converted the joint angles before calculating their Cartesian coordinates.
+Link 3
 
-[
+$\theta_1+\theta_2+\theta_3$
+
+Step 2 – Degree to radian conversion
+
+MATLAB's trigonometric functions use radians.
+
+$$
 \theta_{\text{rad}}=\theta_{\text{deg}}\times\frac{\pi}{180}
-]
+$$
 
-Step 3: Calculating the position of Joint 1
+Step 3 – Position of Joint 1
 
-The first link starts at the robot base (origin) and has length (L_1).
+The first link starts at the origin $(0,0)$.
 
 Using basic trigonometry:
 
-[
+$$
 x_1=L_1\cos(\theta_1)
-]
+$$
 
-[
+$$
 y_1=L_1\sin(\theta_1)
-]
+$$
 
-These equations calculate the horizontal and vertical coordinates of the first joint.
+Step 4 – Position of Joint 2
 
-Step 4: Calculating the position of Joint 2
+The second link starts at the endpoint of the first link. Its absolute orientation is $\theta_1+\theta_2$.
 
-The second link starts at the endpoint of the first link.
-
-Its absolute orientation is the sum of the first and second joint angles.
-
-[
+$$
 x_2=x_1+L_2\cos(\theta_1+\theta_2)
-]
+$$
 
-[
+$$
 y_2=y_1+L_2\sin(\theta_1+\theta_2)
-]
+$$
 
-The coordinates of the first joint are added to the second link's horizontal and vertical components to obtain the position of Joint 2.
-
-Step 5: Calculating the end-effector position
+Step 5 – End-effector position (Joint 3)
 
 The third link starts at the endpoint of the second link.
 
 Its absolute orientation is:
 
-[
+$$
 \theta_1+\theta_2+\theta_3
-]
+$$
 
 Therefore:
 
-[
+$$
 x_3=x_2+L_3\cos(\theta_1+\theta_2+\theta_3)
-]
+$$
 
-[
+$$
 y_3=y_2+L_3\sin(\theta_1+\theta_2+\theta_3)
-]
+$$
 
-The resulting coordinates ((x_3,y_3)) represent the end-effector position.
+Step 6 – Complete Forward Kinematics model
 
-Step 6: Complete Forward Kinematics equations
+Combining the three link equations gives the final end-effector coordinates:
 
-By combining the three link equations, the complete end-effector position can be expressed directly as:
-
-[
+$$
 \boxed{
 x=L_1\cos\theta_1+
 L_2\cos(\theta_1+\theta_2)+
 L_3\cos(\theta_1+\theta_2+\theta_3)
 }
-]
+$$
 
-[
+$$
 \boxed{
 y=L_1\sin\theta_1+
 L_2\sin(\theta_1+\theta_2)+
 L_3\sin(\theta_1+\theta_2+\theta_3)
 }
-]
+$$
 
-The final orientation of the end effector is:
+The end-effector orientation is:
 
-[
+$$
 \boxed{\phi=\theta_1+\theta_2+\theta_3}
-]
+$$
 
 These equations form the mathematical foundation of the Forward Kinematics model.
 
 Visualization and Animation
 
-After calculating the coordinates of each joint, I used MATLAB plotting functions to represent the robot arm in a 2D Cartesian coordinate system.
+After deriving the equations, I implemented them in MATLAB to calculate the Cartesian coordinates of each joint and the end effector.
 
-I then implemented an animation using a for loop. During each iteration, the joint angles were updated, the new joint positions were calculated, and the existing robot drawing was updated.
+I used MATLAB plotting functions to visualize the robot arm in a 2D coordinate system. I also implemented an animation using a for loop, where the joint angles are updated at each iteration and the corresponding joint positions are recalculated.
 
-This allowed me to observe how changing the joint angles affects the overall configuration and end-effector position.
+This demonstrates how changes in joint angles affect the robot's configuration and end-effector position.
+
+Results
+
 
 Forward Kinematics – Robot Configuration
 
