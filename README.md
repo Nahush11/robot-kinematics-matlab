@@ -82,13 +82,13 @@ These equations resolve the first link into its horizontal and vertical componen
 
 The second link starts at the endpoint of the first link. Its orientation is the sum of the first and second joint angles.
 
-[
+$$
 x_2=x_1+L_2\cos(\theta_1+\theta_2)
-]
+$$
 
-[
+$$
 y_2=y_1+L_2\sin(\theta_1+\theta_2)
-]
+$$
 
 The position of Joint 1 is added to the second link's Cartesian components to obtain the position of Joint 2.
 
@@ -96,21 +96,21 @@ The position of Joint 1 is added to the second link's Cartesian components to ob
 
 The third link starts at the endpoint of the second link. Its absolute orientation is:
 
-[
+$$
 \theta_1+\theta_2+\theta_3
-]
+$$
 
 Therefore, the end-effector coordinates are:
 
-[
+$$
 x_3=x_2+L_3\cos(\theta_1+\theta_2+\theta_3)
-]
+$$
 
-[
+$$
 y_3=y_2+L_3\sin(\theta_1+\theta_2+\theta_3)
-]
+$$
 
-The resulting point (P_3=(x_3,y_3)) represents the position of the robot's end effector.
+The resulting point $$(P_3=(x_3,y_3))$$ represents the position of the robot's end effector.
 
 6. Complete Forward Kinematics Equations
 
@@ -118,30 +118,28 @@ By combining the individual link equations, the complete end-effector position c
 
 End-effector X-coordinate
 
-[
+$$
 \boxed{
 x=L_1\cos\theta_1+
 L_2\cos(\theta_1+\theta_2)+
 L_3\cos(\theta_1+\theta_2+\theta_3)
 }
-]
+$$
 
 End-effector Y-coordinate
 
-[
+$$
 \boxed{
 y=L_1\sin\theta_1+
 L_2\sin(\theta_1+\theta_2)+
 L_3\sin(\theta_1+\theta_2+\theta_3)
 }
-]
-
+$$
 End-effector orientation
 
-[
+$$
 \boxed{\phi=\theta_1+\theta_2+\theta_3}
-]
-
+$$
 These equations form the mathematical model used to calculate the robot's end-effector pose.
 
 MATLAB Implementation
@@ -182,15 +180,15 @@ Robot Configuration and Target Pose
 
 The same three-link planar robot was used:
 
-Link 1: (L_1 = 2.0,m)
+Link 1: $$(L_1 = 2.0,m)$$
 
-Link 2: (L_2 = 1.5,m)
+Link 2: $$(L_2 = 1.5,m)$$
 
-Link 3: (L_3 = 1.0,m)
+Link 3: $$(L_3 = 1.0,m)$$
 
 The desired end-effector configuration was defined as:
 
-Desired X-coordinate: (x_{\text{des}}=2.0,m)
+Desired X-coordinate: $$(x_{\text{des}}=2.0,m)$$
 
 Desired Y-coordinate: (y_{\text{des}}=1.5,m)
 
