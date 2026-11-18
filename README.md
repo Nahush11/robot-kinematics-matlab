@@ -285,10 +285,6 @@ The reduced system is solved simultaneously with MATLAB's symbolic `solve()` fun
 θ3 = 45° - θ1 - θ2
 ```
  
-The symbolic results are converted to numerical values with `double()` and from radians into degrees for easier interpretation.
- 
-> **Note:** depending on the target pose, more than one valid joint configuration may exist. These multiple solutions represent alternative ways for the arm to reach the same end-effector pose — a general property of inverse kinematics, not an error in the solver.
- 
 ### Computing the Joint Positions
  
 Once the joint angles are known, the FK position equations are applied again to recover the Cartesian coordinates of every joint. The angles fix the orientation of each link, which allows the complete arm configuration to be reconstructed and plotted in MATLAB with the desired end-effector position marked in the same coordinate system.
